@@ -100,9 +100,8 @@ def depthFirstSearch(problem):
         if not pos in visited:
             visited.append(pos)
             for child_pos, child_action, child_cost in problem.getSuccessors(pos):
-                new_cost = cost + child_cost
                 new_path = path + [child_action]
-                new_node = [child_pos, new_cost, new_path]
+                new_node = [child_pos, child_cost, new_path]
                 stack.push(new_node)
 
     # print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
@@ -121,16 +120,14 @@ def breadthFirstSearch(problem):
             return path
         if not pos in visited:
             childs = problem.getSuccessors(pos)
-            for child_pos, child_action, child_cost in childs:
-                if problem.isGoalState(child_pos):
-                   return path + [child_action]
+            # for child_pos, child_action, child_cost in childs:
+            #     if problem.isGoalState(child_pos):
+            #        return path + [child_action]
             visited.append(pos)
             for child_pos, child_action, child_cost in childs:
                 new_path = path + [child_action]
-                new_cost = cost + child_cost
-                new_node = [child_pos, new_cost, new_path]
+                new_node = [child_pos, child_cost, new_path]
                 stack.push(new_node)
-    util.raiseNotDefined()
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
@@ -150,7 +147,6 @@ def uniformCostSearch(problem):
                 new_path = path + [child_action]
                 new_node = [child_pos, new_cost, new_path]
                 queue.push(new_node,new_cost)
-    util.raiseNotDefined()
 
 def nullHeuristic(state, problem=None):
     """
@@ -177,7 +173,8 @@ def aStarSearch(problem, heuristic=nullHeuristic):
                 new_cost = cost + child_cost
                 new_path = path + [child_action]
                 new_node = [child_pos, new_cost, new_path]
-                queue.push(new_node,new_cost)
+                heuri =  heuristic(child_pos,problem)
+                queue.push(new_node,new_cost+heuri)
     util.raiseNotDefined()
 
 
